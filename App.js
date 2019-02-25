@@ -2,10 +2,22 @@ import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import FBSDK, { LoginManager } from 'react-native-fbsdk';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+import { AzureInstance, AzureLoginView } from 'react-native-azure-ad-2'
 
 GoogleSignin.configure();
 
+const CREDENTIAILS = {
+  client_id: '63ccca70-8d9a-4845-95d2-a75b1ab52fa5',
+  client_secret: 'hcooKMR5427^drdGRGG1{]]',
+  scope: 'User.ReadBasic.All Mail.Read offline_access'
+};
+
+const Instance = new AzureInstance(CREDENTIAILS);
+
 export default class App extends Component {
+
+  azureInstance = new AzureInstance(CREDENTIAILS);
+  _onLoginSuccess = this._onLoginSuccess.bind(this);
 
   fbAuth() {
     LoginManager.logInWithReadPermissions(['public_profile'], function (result) {
@@ -17,6 +29,14 @@ export default class App extends Component {
       }
     }, function (error) {
       console.log('An error has ocurred: ' + error);
+    })
+  }
+
+  _onLoginSuccess() {
+    this.azureInstance.getUserInfo().then(result => {
+      console.log(result);
+    }).catch(err => {
+      console.log(err);
     })
   }
 
@@ -43,14 +63,10 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={{ backgroundColor: '#3b6bae', padding: 12, borderRadius: 15 }} onPress={() => this.fbAuth()}>
-          <Text style={{ color: 'white' }}>Login wit facebook</Text>
-        </TouchableOpacity>
-        <GoogleSigninButton
-          style={{ width: 192, height: 48 }}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={this._signIn}
+        <AzureLoginView
+          azureInstance={this.azureInstance}
+          loadingMessage="Requesting access token"
+          onSuccess={this._onLoginSuccess}
         />
       </View>
     );

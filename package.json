@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.6.3",
     "react-native": "0.58.5",
+    "react-native-azure-ad-2": "^1.0.5",
     "react-native-fbsdk": "^0.8.0",
     "react-native-google-signin": "^1.2.0"
   },
