@@ -9,7 +9,6 @@ export default class App extends Component {
 
   fbAuth() {
     LoginManager.logInWithReadPermissions(['public_profile'], function (result) {
-      debugger;
       if (result.isCancelled) {
         console.log('Login was cancelled');
       } else {
@@ -44,7 +43,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={{ backgroundColor: '#3b6bae', padding: 12, borderRadius: 15 }} onPress={() => this.fbAuth()}>
-          <Text style={{ color: 'white' }}>Login wit facebook</Text>
+          <Text style={{ color: 'white' }}>Login with facebook</Text>
         </TouchableOpacity>
         <GoogleSigninButton
           style={{ width: 192, height: 48 }}
